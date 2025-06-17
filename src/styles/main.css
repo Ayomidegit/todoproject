@@ -1,0 +1,14 @@
+.todo-card {
+  padding: 1rem;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+}
+
+.todo-card__title {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.todo-card__status--completed {
+  color: green;
+}

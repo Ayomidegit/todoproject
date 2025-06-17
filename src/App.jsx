@@ -1,35 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import TodoListPage from './pages/TodoListPage';
+import TodoDetailPage from './pages/TodoDetailPage';
+import NotFoundPage from './pages/NotFoundPage';
+import NewTodoPage from "./pages/NewTodoPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+const BrokenPage = () => {
+  throw new Error('Intentional Error!');
+};
 
+const App = () => {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default App
+    <Routes>
+      <Route path="/" element={<TodoListPage />} />
+      <Route path="/todos/:id" element={<TodoDetailPage />} />
+      <Route path="/broken" element={<BrokenPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+      <Route path="/new" element={<NewTodoPage />} />
+    </Routes>
+  );
+};
+export default App;

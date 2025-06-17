@@ -1,0 +1,231 @@
+.todo {
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.todo__header {
+  background-image: url("/assets/bgbackground.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 5rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.todo__heading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.todo-header__title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+.todo__advice-button {
+  background-color: hsl(235, 21%, 11%);
+  backdrop-filter: blur(10px);
+  margin-top: 20px;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.todo__advice-button:hover {
+  background-color: #5a5a7a;
+  color: black;
+}
+.todo__theme-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: hsl(0, 0%, 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.todo__content {
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  /* max-width: 700px; */
+}
+.todo__add-button {
+  background-color: hsl(235, 21%, 11%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.todo__add-button:hover {
+  background-color: #6b6b86;
+  color: black;
+}
+.todo__controls {
+  display: flex;
+  /* width: 100%; */
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.todo__search,
+.todo__filter {
+  padding: 0.5rem;
+  font-size: 1rem;
+  /* width: 100%; */
+}
+.todo__search {
+  flex: 1;
+  background-color: #1f1f2e;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+}
+.todo__filter {
+  background-color: #1f1f2e;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.todo__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  background-color: hsl(237, 14%, 26%);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+}
+.todo__item:hover {
+  background-color: hsl(237, 14%, 30%);
+}
+.todo__link {
+  text-decoration: none;
+  color: #000000;
+}
+.todo__link:hover {
+  color: hsl(233, 11%, 84%);
+}
+.todo__title {
+  font-weight: bold;
+}
+
+.todo__page-info {
+  font-weight: bold;
+}
+
+.todo__actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.todo__edit-btn {
+  padding: 0.4rem 0.75rem;
+  background-color: #5a5a7a;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.todo__edit-btn:hover {
+  background-color: #6c6c8a;
+}
+.todo__delete-btn {
+  background-color: #1f1f2e;
+  color: white;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.todo__delete-btn:hover {
+  background-color: #2f2f42;
+}
+
+.todo__pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+  gap: 1rem;
+}
+
+.todo__page-btn {
+  padding: 0.4rem 0.8rem;
+  background-color: hsl(237, 14%, 26%);
+  color: black;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 1rem;
+}
+.todo__page-btn:hover {
+  background-color: hsl(237, 14%, 30%);
+  color: hsl(233, 11%, 84%);
+}
+.todo__page-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+.todo__footer-line {
+  width: 100%;
+  height: 1px;
+  background-color: hsl(0, 0%, 19%);
+  margin: 1rem 0;
+}
+.todo__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: hsl(235, 21%, 11%);
+  color: rgb(170, 170, 170);
+}
+.todo__footer-text {
+  margin: 0;
+}
+.todo__footer-link {
+  color: hsl(233, 11%, 84%);
+  text-decoration: none;
+}
+.todo__footer-link:hover {
+  text-decoration: underline;
+}
+@media (max-width: 600px) {
+  .todo__controls {
+    width: 100%;
+  }
+  .todo__filter {
+    width: 50%;
+  }
+  .todo-header__title {
+    font-size: 1.5rem;
+  }
+}
