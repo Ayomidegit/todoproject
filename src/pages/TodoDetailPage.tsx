@@ -4,16 +4,17 @@ import { useTodo } from "../hooks/useTodo";
 import { useUpdateTodo } from "../hooks/useUpdateTodo";
 import { useDeleteTodo } from "../hooks/useDeleteTodo";
 import "../styles/TodoDetailPage.css";
+import { Todo } from "../api/todos";
 
-const TodoDetailPage = () => {
-  const { id } = useParams();
+const TodoDetailPage: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const { data: todo, isLoading, error } = useTodo(id);
+  const { data: todo, isLoading, error } = useTodo({ id: Number(id) });
   const [title, setTitle] = useState("");
   const [completed, setCompleted] = useState(false);
 
-  const { mutate: updateTodo, isLoading: saving } = useUpdateTodo();
+  const { mutate: updateTodo, isPending: saving } = useUpdateTodo();
   const { mutate: deleteTodo } = useDeleteTodo();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ const TodoDetailPage = () => {
   }, [todo]);
 
   const handleSave = () => {
+    if (!todo) return;
     updateTodo(
       { ...todo, title, completed },
       {
@@ -34,10 +36,12 @@ const TodoDetailPage = () => {
   };
 
   const handleDelete = () => {
-    const confirmed = confirm("Are you sure you want to delete this todo?");
-    if (!confirmed) return;
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this todo?"
+    );
+    if (!confirmed || !id) return;
 
-    deleteTodo(id, {
+    deleteTodo(Number(id), {
       onSuccess: () => {
         alert("Todo deleted.");
         navigate("/");
@@ -52,17 +56,21 @@ const TodoDetailPage = () => {
   return (
     <main className="todo-detail-page">
       <section className="todo-detail">
-        <h2 className="todo-detail__title">Edit Todo #{todo.id}</h2>
+        <h2 className="todo-detail__title">Edit Todo #{todo?.id}</h2>
         <input
           className="todo-detail__input"
           value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTitle(e.target.value)
+          }
         />
         <label className="todo-detail__checkbox">
           <input
             type="checkbox"
             checked={completed}
-            onChange={(e) => setCompleted(e.target.checked)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setCompleted(e.target.checked)
+            }
           />
           Completed
         </label>

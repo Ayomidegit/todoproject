@@ -1,13 +1,13 @@
-import React from 'react';
-import './App.css';
-import { Routes, Route } from 'react-router-dom';
-import TodoListPage from './pages/TodoListPage';
-import TodoDetailPage from './pages/TodoDetailPage';
-import NotFoundPage from './pages/NotFoundPage';
+import React from "react";
+import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import TodoListPage from "./pages/TodoListPage";
+import TodoDetailPage from "./pages/TodoDetailPage";
+import NotFoundPage from "./hooks/NotFoundPage";
 import NewTodoPage from "./pages/NewTodoPage";
 
 const BrokenPage = () => {
-  throw new Error('Intentional Error!');
+  throw new Error("Intentional Error!");
 };
 
 const App = () => {

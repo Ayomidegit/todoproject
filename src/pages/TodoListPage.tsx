@@ -1,28 +1,28 @@
 import React, { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { fetchTodos, updateTodo, deleteTodo } from "../api/todos";
+import { fetchTodos, updateTodo, deleteTodo, Todo } from "../api/todos";
 import EditTodoForm from "../components/EditTodoForm";
 import "../styles/TodoListPage.css";
 
-const TodoListPage = () => {
+const TodoListPage: React.FC = () => {
   const queryClient = useQueryClient();
 
   const {
     data: todos = [],
     isLoading,
     isError,
-  } = useQuery({
+  } = useQuery<Todo[]>({
     queryKey: ["todos"],
     queryFn: fetchTodos,
   });
 
-  const updateMutation = useMutation({
+  const updateMutation = useMutation<Todo, unknown, Todo>({
     mutationFn: updateTodo,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
 
-  const deleteMutation = useMutation({
+  const deleteMutation = useMutation<boolean, unknown, number>({
     mutationFn: deleteTodo,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["todos"] }),
   });
@@ -30,12 +30,12 @@ const TodoListPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [editingTodoId, setEditingTodoId] = useState(null);
+  const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
   const [advice, setAdvice] = useState("");
 
   const todosPerPage = 10;
 
-  const filteredTodos = todos.filter((todo) => {
+  const filteredTodos = todos.filter((todo: Todo) => {
     const matchesSearch = todo.title
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -99,12 +99,16 @@ const TodoListPage = () => {
             placeholder="Search todos..."
             className="todo__search"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchTerm(e.target.value)
+            }
           />
           <select
             className="todo__filter"
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setFilter(e.target.value)
+            }
           >
             <option value="all">All</option>
             <option value="completed">Completed</option>
@@ -116,7 +120,7 @@ const TodoListPage = () => {
           <p className="todo__no-todos">No todos match your search/filter.</p>
         ) : (
           <ul className="todo__list">
-            {currentTodos.map((todo) => (
+            {currentTodos.map((todo: Todo) => (
               <li className="todo__item" key={todo.id}>
                 {editingTodoId === todo.id ? (
                   <EditTodoForm

@@ -1,13 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateTodo } from "../api/todos";
+import { deleteTodo } from "../api/todos";
 
-export const useUpdateTodo = () => {
+export const useDeleteTodo = () => {
   const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateTodo,
+  return useMutation<boolean, unknown, number>({
+    mutationFn: deleteTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },
   });
 };
-

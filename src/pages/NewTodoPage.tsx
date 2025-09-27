@@ -1,37 +1,39 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCreateTodo } from "../hooks/useCreateTodo";
+import { Todo } from "../api/todos";
 import "../styles/NewTodoPage.css";
 
-const NewTodoPage = () => {
+const NewTodoPage: React.FC = () => {
   const [title, setTitle] = useState("");
   const [completed, setCompleted] = useState(false);
   const navigate = useNavigate();
 
-  const { mutate: createTodo, isLoading } = useCreateTodo();
+  const { mutate: createTodo, isPending } = useCreateTodo({
+    onSuccess: (data) => {
+      alert(`Todo created with id ${data.id}`);
+      navigate("/");
+    },
+    onError: () => {
+      alert("Creation failed.");
+    },
+  });
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");
     document.body.classList.toggle("dark", theme === "dark");
   }, []);
-  const handleSubmit = (e) => {
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const newTodo = {
+    const newTodo: Omit<Todo, "id"> = {
       title,
       completed,
       userId: 1,
     };
 
-    createTodo(newTodo, {
-      onSuccess: (data) => {
-        alert(`Todo created with id ${data.id}`);
-        navigate("/");
-      },
-      onError: () => {
-        alert("Creation failed.");
-      },
-    });
+    createTodo(newTodo);
   };
 
   return (
@@ -44,7 +46,9 @@ const NewTodoPage = () => {
             type="text"
             required
             value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTitle(e.target.value)
+            }
             className="new-todo__input"
           />
         </div>
@@ -52,8 +56,10 @@ const NewTodoPage = () => {
         <div className="new-todo__field">
           <label>Status: </label>
           <select
-            value={completed}
-            onChange={(e) => setCompleted(e.target.value === "true")}
+            value={completed.toString()}
+            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+              setCompleted(e.target.value === "true")
+            }
             className="new-todo__select"
           >
             <option value="false">Incomplete</option>
@@ -61,8 +67,8 @@ const NewTodoPage = () => {
           </select>
         </div>
 
-        <button type="submit" className="new-todo__button" disabled={isLoading}>
-          {isLoading ? "Creating..." : "Create"}
+        <button type="submit" className="new-todo__button" disabled={isPending}>
+          {isPending ? "Creating..." : "Create"}
         </button>
         <button
           type="button"

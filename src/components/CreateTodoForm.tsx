@@ -1,11 +1,10 @@
-// src/hooks/useDeleteTodo.js
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteTodo } from "../api/todos";
+import { createTodo, Todo } from "../api/todos";
 
-export const useDeleteTodo = () => {
+export const useCreateTodo = () => {
   const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: deleteTodo,
+  return useMutation<Todo, unknown, Omit<Todo, "id">>({
+    mutationFn: createTodo,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["todos"] });
     },

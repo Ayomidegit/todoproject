@@ -1,14 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useUpdateTodo } from "../hooks/useUpdateTodo";
-import "../styles/EditTodoForm.css"; // ONE global CSS file only
+import "../styles/EditTodoForm.css";
+import { Todo } from "../api/todos";
 
-const EditTodoForm = ({ todo, onUpdate, onCancel }) => {
+interface EditTodoFormProps {
+  todo: Todo;
+  onUpdate: (data: Todo) => void;
+  onCancel: () => void;
+}
+
+const EditTodoForm: React.FC<EditTodoFormProps> = ({
+  todo,
+  onUpdate,
+  onCancel,
+}) => {
   const [title, setTitle] = useState(todo.title);
   const [completed, setCompleted] = useState(todo.completed);
 
-  const { mutate: updateTodo, isLoading } = useUpdateTodo();
+  const { mutate: updateTodo, isPending } = useUpdateTodo();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const updatedTodo = { ...todo, title, completed };
     updateTodo(updatedTodo, {
@@ -27,13 +38,17 @@ const EditTodoForm = ({ todo, onUpdate, onCancel }) => {
       <input
         type="text"
         value={title}
-        onChange={(e) => setTitle(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setTitle(e.target.value)
+        }
         required
         className="todo__edit-input"
       />
       <select
-        value={completed}
-        onChange={(e) => setCompleted(e.target.value === "true")}
+        value={completed.toString()}
+        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setCompleted(e.target.value === "true")
+        }
         className="todo__edit-select"
       >
         <option value="false">Incomplete</option>
@@ -42,9 +57,9 @@ const EditTodoForm = ({ todo, onUpdate, onCancel }) => {
       <button
         type="submit"
         className="todo__edit-save-button"
-        disabled={isLoading}
+        disabled={isPending}
       >
-        {isLoading ? "Saving..." : "Save"}
+        {isPending ? "Saving..." : "Save"}
       </button>
       <button
         type="button"
