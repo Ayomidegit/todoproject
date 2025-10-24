@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTodo } from "@/hooks/useTodo";
 import { useUpdateTodo } from "@/hooks/useUpdateTodo";
 import { useDeleteTodo } from "@/hooks/useDeleteTodo";
-import "../../../../src/styles/TodoDetailPage.css";
+import "@/styles/TodoDetailPage.css";
 
 const TodoDetailPage: React.FC = () => {
   const params = useParams();
